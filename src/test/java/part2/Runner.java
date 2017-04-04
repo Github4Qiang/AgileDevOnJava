@@ -7,8 +7,11 @@ import junit.textui.TestRunner;
  */
 public class Runner {
 
+    private static final String MY_NUMBER_TEST = "part2.pattern.command.MyNumberTest";
+    private static final String SLEEP_COMMAND_TEST = "part2.pattern.activeobject.SleepCommandTest";
+
     public static void main(String[] args) {
-        TestRunner.main(new String[]{"part2.pattern.command.MyNumberTest"});
+        TestRunner.main(new String[]{SLEEP_COMMAND_TEST});
     }
 
 }
