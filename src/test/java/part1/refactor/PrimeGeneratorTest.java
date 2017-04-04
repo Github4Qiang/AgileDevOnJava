@@ -1,4 +1,4 @@
-package refactor;
+package part1.refactor;
 
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
@@ -51,7 +51,7 @@ public class PrimeGeneratorTest extends TestCase {
     }
 
     public static void main(String[] args) {
-        TestRunner.main(new String[]{"refactor.PrimeGeneratorTest"});
+        TestRunner.main(new String[]{"part1.refactor.PrimeGeneratorTest"});
     }
 
 }

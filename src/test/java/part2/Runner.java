@@ -1,4 +1,4 @@
-package pairprogramming;
+package part2;
 
 import junit.textui.TestRunner;
 
@@ -8,7 +8,7 @@ import junit.textui.TestRunner;
 public class Runner {
 
     public static void main(String[] args) {
-        TestRunner.main(new String[]{"pair.GameTest"});
+        TestRunner.main(new String[]{"part2.pattern.command.MyNumberTest"});
     }
 
 }

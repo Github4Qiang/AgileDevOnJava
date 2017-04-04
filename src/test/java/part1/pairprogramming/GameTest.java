@@ -1,4 +1,4 @@
-package pairprogramming;
+package part1.pairprogramming;
 
 import junit.framework.TestCase;
 import org.junit.Before;

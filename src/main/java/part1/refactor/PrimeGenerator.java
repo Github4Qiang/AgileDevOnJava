@@ -1,4 +1,4 @@
-package refactor;
+package part1.refactor;
 
 /**
  * Created by Polylanger on 2017/3/26.

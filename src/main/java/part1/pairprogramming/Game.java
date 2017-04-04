@@ -1,4 +1,4 @@
-package pairprogramming;
+package part1.pairprogramming;
 
 /**
  * Create by Polylanger on 2017/3/27 12:53:00
