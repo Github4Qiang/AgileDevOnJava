@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.locks.Lock;
+
 import static org.junit.Assert.*;
 
 /**
@@ -17,6 +19,13 @@ public class TurnstileTest extends TestCase {
 
     public TurnstileTest(String name) {
         super(name);
+    }
+
+    public void testInstanceOf() throws Exception {
+        Locked locked = new Locked();
+        assertTrue(locked instanceof Turnstile);
+        Turnstile unlocked = new UnLocked();
+        assertTrue(unlocked instanceof UnLocked);
     }
 
     public void setUp() throws Exception {
