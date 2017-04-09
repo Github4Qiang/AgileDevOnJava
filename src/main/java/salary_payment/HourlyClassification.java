@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Created by Polylanger on 2017/4/9.
  */
-public class HourlyClassification extends PaymentClassification {
+public class HourlyClassification implements PaymentClassification {
 
     private HashMap<Long, TimeCard> itsTimeCards;
     private double hourlyRate;

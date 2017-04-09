@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Created by Polylanger on 2017/4/9.
  */
-public class CommissionedClassification extends PaymentClassification {
+public class CommissionedClassification implements PaymentClassification {
     private double salary;
     private double commissionRate;
     private HashMap<Long, SalesReceipt> itsSalesReceipts;

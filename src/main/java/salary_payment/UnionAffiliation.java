@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Created by Polylanger on 2017/4/9.
  */
-public class UnionAffiliation extends Affiliation {
+public class UnionAffiliation implements Affiliation {
     private int memberId;
     private double dues;
     private HashMap<Long, ServiceCharge> itsServiceCharges;
