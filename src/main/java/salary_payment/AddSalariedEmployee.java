@@ -12,7 +12,7 @@ public class AddSalariedEmployee extends AddEmployeeTransaction {
         this.salary = salary;
     }
 
-    @Override
+
     public PaymentClassification getClassification() {
         return new SalariedClassification(salary);
     }

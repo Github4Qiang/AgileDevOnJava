@@ -2,6 +2,8 @@ package salary_payment;
 
 import junit.framework.TestCase;
 
+import java.util.Date;
+
 
 /**
  * Created by Polylanger on 2017/4/9.
@@ -12,6 +14,52 @@ public class PayrollTest extends TestCase {
     public void setUp() throws Exception {
         PayrollDatabase.GPayroolDatabase.clear();
         super.setUp();
+    }
+
+    public void testSalesReceiptTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.00;
+        double commissionRate = 0.1;
+
+        AddEmployeeTransaction t = new AddCommissionEmployee(empId, name, home, salary, commissionRate);
+        t.execute();
+
+        Date date = new Date(2017, 4, 9);
+        double amount = 1000;
+        SalesReceiptTransaction srt = new SalesReceiptTransaction(date, amount, empId);
+        srt.execute();
+
+        Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        assertEquals(name, e.getName());
+
+        PaymentClassification pc = e.getClassification();
+        assertTrue(pc instanceof CommissionedClassification);
+        SalesReceipt sr = ((CommissionedClassification) pc).getSalesReceipt(date);
+        assertEquals(amount, sr.getAmount());
+    }
+
+    public void testTimeCardTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double hourlyRate = 25.0;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, name, home, hourlyRate);
+        t.execute();
+
+        Date date = new Date(2017, 4, 9);
+        double hours = 8.0;
+        TimeCardTransaction tct = new TimeCardTransaction(date, hours, empId);
+        tct.execute();
+
+        Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        assertEquals(name, e.getName());
+        PaymentClassification pc = e.getClassification();
+        assertTrue(pc instanceof HourlyClassification);
+
+        TimeCard tc = ((HourlyClassification) pc).getTimeCard(date);
+        assertEquals(hours, tc.getHours());
     }
 
     public void testDeleteEmployee() throws Exception {
