@@ -16,6 +16,156 @@ public class PayrollTest extends TestCase {
         super.setUp();
     }
 
+    public void testChangeHoldMethodTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+
+        AddEmployeeTransaction t = new AddSalariedEmployee(empId, name, home, salary);
+        t.execute();
+
+        String address = "Shi Hezi";
+        ChangeMethodTransaction cmt1 = new ChangeMailMethodTransaction(empId, address);
+        cmt1.execute();
+
+        ChangeMethodTransaction cmt2 = new ChangeHoldMethodTransaction(empId);
+        cmt2.execute();
+        Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        assertTrue(e.getMethod() instanceof HoldMethod);
+    }
+
+    public void testChangeDirectMethodTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+
+        AddEmployeeTransaction t = new AddSalariedEmployee(empId, name, home, salary);
+        t.execute();
+
+        String bank = "CCB";
+        int account = 12345;
+        ChangeMethodTransaction cmt = new ChangeDirectMethodTransaction(empId, bank, account);
+        cmt.execute();
+
+        Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        assertTrue(e.getMethod() instanceof DirectMethod);
+    }
+
+    public void testChangeMailMethodTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+
+        AddEmployeeTransaction t = new AddSalariedEmployee(empId, name, home, salary);
+        t.execute();
+
+        String bank = "CCB";
+        int account = 12345;
+        ChangeMethodTransaction cmt1 = new ChangeDirectMethodTransaction(empId, bank, account);
+        cmt1.execute();
+
+        String address = "Shi Hezi";
+        ChangeMethodTransaction cmt2 = new ChangeMailMethodTransaction(empId, address);
+        cmt2.execute();
+        Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        assertTrue(e.getMethod() instanceof MailMethod);
+    }
+
+    public void testChangeHourlyTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+
+        AddEmployeeTransaction t = new AddSalariedEmployee(empId, name, home, salary);
+        t.execute();
+
+        double hourlyRate = 25.0;
+        ChangeClassificationTransaction cct = new ChangeHourlyTransaction(empId, hourlyRate);
+        cct.execute();
+        {
+            Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+            assertEquals(name, e.getName());
+
+            PaymentClassification pc = e.getClassification();
+            assertTrue(pc instanceof HourlyClassification);
+
+            PaymentSchedule ps = e.getSchedule();
+            assertTrue(ps instanceof WeeklySchedule);
+        }
+    }
+
+    public void testChangeSalariedTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+        double commissionRate = 0.1;
+
+        AddEmployeeTransaction t = new AddCommissionEmployee(empId, name, home, salary, commissionRate);
+        t.execute();
+
+        ChangeClassificationTransaction cct = new ChangeSalariedTransaction(empId, salary);
+        cct.execute();
+        {
+            Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+            assertEquals(name, e.getName());
+
+            PaymentClassification pc = e.getClassification();
+            assertTrue(pc instanceof SalariedClassification);
+
+            PaymentSchedule ps = e.getSchedule();
+            assertTrue(ps instanceof MonthlySchedule);
+        }
+    }
+
+    public void testChangeCommissionTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double hourlyRate = 25.0;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, name, home, hourlyRate);
+        t.execute();
+
+        double salary = 1000.0;
+        double commissionRate = 0.1;
+        ChangeClassificationTransaction cct = new ChangeCommissionedTransaction(empId, salary, commissionRate);
+        cct.execute();
+        {
+            Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+            assertEquals(name, e.getName());
+
+            PaymentClassification pc = e.getClassification();
+            assertTrue(pc instanceof CommissionedClassification);
+
+            PaymentSchedule ps = e.getSchedule();
+            assertTrue(ps instanceof BiweeklySchedule);
+        }
+    }
+
+    public void testChangeAttributeTransaction() throws Exception {
+        int empId = 1;
+        String name = "Bob";
+        String address = "Home";
+        double salary = 1000.00;
+        AddSalariedEmployee t = new AddSalariedEmployee(empId, name, address, salary);
+        t.execute();
+
+        String name1 = "Bill";
+        ChangeNameTransaction cnt = new ChangeNameTransaction(empId, name1);
+        cnt.execute();
+        String address1 = "Cheng du";
+        ChangeAddressTransaction cat = new ChangeAddressTransaction(empId, address1);
+        cat.execute();
+
+        Employee e = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        assertEquals(name1, e.getName());
+        assertEquals(address1, e.getAddress());
+    }
+
     public void testAddServiceCharge() throws Exception {
         int empId = 1;
         String name = "Bob";

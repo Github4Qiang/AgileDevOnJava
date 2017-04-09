@@ -7,19 +7,19 @@ public abstract class AddEmployeeTransaction implements Transaction {
 
     private int empId;
     private String name;
-    private String home;
+    private String address;
 
-    public AddEmployeeTransaction(int empId, String name, String home) {
+    public AddEmployeeTransaction(int empId, String name, String address) {
         this.empId = empId;
         this.name = name;
-        this.home = home;
+        this.address = address;
     }
 
     public void execute() {
         PaymentMethod pm = new HoldMethod();
         PaymentSchedule ps = getSchedule();
         PaymentClassification pc = getClassification();
-        Employee e = new Employee(empId, name, home);
+        Employee e = new Employee(empId, name, address);
         e.setClassification(pc);
         e.setSchedule(ps);
         e.setMethod(pm);

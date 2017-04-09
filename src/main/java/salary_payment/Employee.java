@@ -11,13 +11,13 @@ public class Employee {
 
     private int empId;
     private String name;
-    private String home;
+    private String address;
     private UnionAffiliation affiliation;
 
-    public Employee(int empId, String name, String home) {
+    public Employee(int empId, String name, String address) {
         this.empId = empId;
         this.name = name;
-        this.home = home;
+        this.address = address;
     }
 
     public void setMethod(PaymentMethod method) {
@@ -54,5 +54,17 @@ public class Employee {
 
     public Affiliation getAffiliation() {
         return affiliation;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }
