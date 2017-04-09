@@ -12,6 +12,7 @@ public class Employee {
     private int empId;
     private String name;
     private String home;
+    private UnionAffiliation affiliation;
 
     public Employee(int empId, String name, String home) {
         this.empId = empId;
@@ -45,5 +46,13 @@ public class Employee {
 
     public PaymentMethod getMethod() {
         return method;
+    }
+
+    public void setAffiliation(UnionAffiliation affiliation) {
+        this.affiliation = affiliation;
+    }
+
+    public Affiliation getAffiliation() {
+        return affiliation;
     }
 }

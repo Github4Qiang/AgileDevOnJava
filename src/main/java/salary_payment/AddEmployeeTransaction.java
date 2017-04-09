@@ -23,7 +23,7 @@ public abstract class AddEmployeeTransaction implements Transaction {
         e.setClassification(pc);
         e.setSchedule(ps);
         e.setMethod(pm);
-        PayrollDatabase.GPayroolDatabase.AddEmployee(empId, e);
+        PayrollDatabase.GPayroolDatabase.addEmployee(empId, e);
     }
 
     public abstract PaymentClassification getClassification();

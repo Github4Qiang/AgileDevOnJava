@@ -10,16 +10,18 @@ public class PayrollDatabase {
     public static final PayrollDatabase GPayroolDatabase = new PayrollDatabase();
 
     private HashMap<Integer, Employee> itsEmployees;
+    private HashMap<Integer, Integer> itsAffilication;
 
     public PayrollDatabase() {
         itsEmployees = new HashMap<Integer, Employee>();
+        itsAffilication = new HashMap<Integer, Integer>();
     }
 
     public Employee getEmployee(int empId) {
         return itsEmployees.get(empId);
     }
 
-    public void AddEmployee(int empId, Employee employee) {
+    public void addEmployee(int empId, Employee employee) {
         itsEmployees.put(empId, employee);
     }
 
@@ -29,5 +31,14 @@ public class PayrollDatabase {
 
     public void deleteEmployee(int empId) {
         itsEmployees.remove(empId);
+    }
+
+    public void addUnionMember(int memberId, int empId) {
+        itsAffilication.put(memberId, empId);
+    }
+
+    public Employee getUnionMember(int memberId) {
+        int empId = itsAffilication.get(memberId);
+        return itsEmployees.get(empId);
     }
 }
