@@ -14,4 +14,8 @@ public class NoAffiliation implements Affiliation {
     public void addServiceCharge(ServiceCharge serviceCharge) {
 
     }
+
+    public double calculateDeductions(Paycheck pc) {
+        return 0;
+    }
 }

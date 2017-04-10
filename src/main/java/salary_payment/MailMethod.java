@@ -10,4 +10,8 @@ public class MailMethod implements PaymentMethod {
     public MailMethod(String address) {
         this.address = address;
     }
+
+    public void pay(Paycheck pc) {
+        pc.setMethod("Mail");
+    }
 }

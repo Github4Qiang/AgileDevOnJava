@@ -5,4 +5,6 @@ package salary_payment;
  */
 public interface PaymentClassification {
 
+    double calculatePay(Paycheck pc);
+
 }

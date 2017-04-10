@@ -11,4 +11,5 @@ public interface Affiliation {
 
     void addServiceCharge(ServiceCharge serviceCharge);
 
+    double calculateDeductions(Paycheck pc);
 }

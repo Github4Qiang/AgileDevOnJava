@@ -1,6 +1,7 @@
 package salary_payment;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by Polylanger on 2017/4/9.
@@ -15,6 +16,10 @@ public class PayrollDatabase {
     public PayrollDatabase() {
         itsEmployees = new HashMap<Integer, Employee>();
         itsAffilication = new HashMap<Integer, Integer>();
+    }
+
+    public Set<Integer> getAllEmployeesId() {
+        return itsEmployees.keySet();
     }
 
     public Employee getEmployee(int empId) {
@@ -42,7 +47,7 @@ public class PayrollDatabase {
     }
 
     public Employee getUnionMember(int memberId) {
-        int empId = itsAffilication.get(memberId);
+        Integer empId = itsAffilication.get(memberId);
         return itsEmployees.get(empId);
     }
 }

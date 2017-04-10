@@ -13,4 +13,7 @@ public class DirectMethod implements PaymentMethod {
         this.account = account;
     }
 
+    public void pay(Paycheck pc) {
+        pc.setMethod("Direct");
+    }
 }

@@ -5,7 +5,13 @@ package salary_payment;
  */
 public class SalariedClassification implements PaymentClassification {
 
-    public SalariedClassification(double salary) {
+    private double salary;
 
+    public SalariedClassification(double salary) {
+        this.salary = salary;
+    }
+
+    public double calculatePay(Paycheck pc) {
+        return salary;
     }
 }

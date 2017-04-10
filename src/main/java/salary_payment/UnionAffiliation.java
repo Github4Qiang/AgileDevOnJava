@@ -26,6 +26,10 @@ public class UnionAffiliation implements Affiliation {
         itsServiceCharges.put(serviceCharge.getDate().getTime(), serviceCharge);
     }
 
+    public double calculateDeductions(Paycheck pc) {
+        return 0;
+    }
+
     public int getMemberId() {
         return memberId;
     }

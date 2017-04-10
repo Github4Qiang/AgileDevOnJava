@@ -1,5 +1,7 @@
 package salary_payment;
 
+import java.util.Date;
+
 /**
  * Created by Polylanger on 2017/4/9.
  */
@@ -9,10 +11,11 @@ public class Employee {
     private PaymentClassification classification;
     private PaymentSchedule schedule;
 
+    private Affiliation affiliation;
+
     private int empId;
     private String name;
     private String address;
-    private Affiliation affiliation;
 
     public Employee(int empId, String name, String address) {
         this.empId = empId;
@@ -66,5 +69,19 @@ public class Employee {
 
     public String getAddress() {
         return address;
+    }
+
+    public boolean isPayDate(Date payDate) {
+        return schedule.isPayDate(payDate);
+    }
+
+    public void payDay(Paycheck pc) {
+        double grossPay = classification.calculatePay(pc);
+        double deductions = affiliation.calculateDeductions(pc);
+        double netPay = grossPay - deductions;
+        pc.setGrossPay(grossPay);
+        pc.setDeductions(deductions);
+        pc.setNetPay(netPay);
+        method.pay(pc);
     }
 }

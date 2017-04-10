@@ -23,7 +23,12 @@ public abstract class AddEmployeeTransaction implements Transaction {
         e.setClassification(pc);
         e.setSchedule(ps);
         e.setMethod(pm);
+        e.setAffiliation(getAffiliation());
         PayrollDatabase.GPayroolDatabase.addEmployee(empId, e);
+    }
+
+    public Affiliation getAffiliation() {
+        return new NoAffiliation();
     }
 
     public abstract PaymentClassification getClassification();

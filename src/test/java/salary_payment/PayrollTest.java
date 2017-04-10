@@ -16,6 +16,100 @@ public class PayrollTest extends TestCase {
         super.setUp();
     }
 
+    public void testPaySingleHourlyEmployeeTwoTimeCards() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double hourlyRate = 25.0;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, name, home, hourlyRate);
+        t.execute();
+
+        Date payDate1 = DateUtils.CreateDate(2017, 4, 7);
+        double hours1 = 9.0;
+        TimeCardTransaction tct1 = new TimeCardTransaction(payDate1, hours1, empId);
+        tct1.execute();
+
+        PaydayTransaction pt = new PaydayTransaction(payDate1);
+        pt.execute();
+
+        ValidatePaycheck(pt, empId, payDate1, (hours1 - 8) * 1.5 * hourlyRate + 8 * hourlyRate);
+    }
+
+    public void testPaySingleHourlyEmployeeOneTimeCard() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double hourlyRate = 25.0;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, name, home, hourlyRate);
+        t.execute();
+
+        Date payDate = DateUtils.CreateDate(2017, 4, 7);
+        double hours = 2.0;
+        TimeCardTransaction tct = new TimeCardTransaction(payDate, hours, empId);
+        tct.execute();
+        PaydayTransaction pt = new PaydayTransaction(payDate);
+        pt.execute();
+
+        ValidatePaycheck(pt, empId, payDate, hours * hourlyRate);
+    }
+
+    public void testPaySingleHourlyEmployeeNoTimeCards() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double hourlyRate = 25.0;
+        AddHourlyEmployee t = new AddHourlyEmployee(empId, name, home, hourlyRate);
+        t.execute();
+
+        Date payDate = DateUtils.CreateDate(2017, 4, 7);
+        PaydayTransaction pt = new PaydayTransaction(payDate);
+        pt.execute();
+        ValidatePaycheck(pt, empId, payDate, 0.0);
+    }
+
+    private void ValidatePaycheck(PaydayTransaction pt, int empId, Date payDate, double pay) {
+        Paycheck pc = pt.getPaycheck(empId);
+        assertTrue(pc != null);
+        assertEquals(payDate.getTime(), pc.getPayPeriodEndDate().getTime());
+        assertEquals(pay, pc.getGrossPay());
+        assertEquals(0.0, pc.getDeductions());
+        assertEquals(pay, pc.getNetPay());
+    }
+
+    public void testPaySingleSalariedEmployee() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+        AddEmployeeTransaction t = new AddSalariedEmployee(empId, name, home, salary);
+        t.execute();
+
+        Date payDate = DateUtils.CreateDate(2017, 3, 31);
+        PaydayTransaction pt = new PaydayTransaction(payDate);
+        pt.execute();
+        Paycheck pc = pt.getPaycheck(empId);
+        assertEquals(payDate.getTime(), pc.getPayDate().getTime());
+        assertEquals(salary, pc.getGrossPay());
+        assertEquals(0.0, pc.getDeductions());
+        assertEquals(salary, pc.getNetPay());
+        assertEquals("Hold", pc.getField("Disposition"));
+    }
+
+    public void testPaySingleSalariedEmployeeOnWrongDate() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+        AddEmployeeTransaction t = new AddSalariedEmployee(empId, name, home, salary);
+        t.execute();
+
+        Date payDate = new Date(2017, 2, 30);
+        PaydayTransaction pt = new PaydayTransaction(payDate);
+        pt.execute();
+        Paycheck pc = pt.getPaycheck(empId);
+        assertEquals(null, pc);
+    }
+
     public void testChangeMemberTransaction() throws Exception {
         int empId = 2;
         String name = "Bob";
@@ -56,6 +150,9 @@ public class PayrollTest extends TestCase {
         Employee e2 = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
         Affiliation af2 = e2.getAffiliation();
         assertTrue(af2 instanceof NoAffiliation);
+
+        Employee e3 = PayrollDatabase.GPayroolDatabase.getUnionMember(memberId);
+        assertEquals(null, e3);
     }
 
     public void testChangeHoldMethodTransaction() throws Exception {
@@ -327,7 +424,6 @@ public class PayrollTest extends TestCase {
         String name = "Bob";
         String home = "Home";
         double hourlyRate = 25.0;
-
         AddHourlyEmployee t = new AddHourlyEmployee(empId, name, home, hourlyRate);
         t.execute();
 

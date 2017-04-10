@@ -23,4 +23,15 @@ public class HourlyClassification implements PaymentClassification {
     public void addTimeCard(TimeCard timeCard) {
         itsTimeCards.put(timeCard.getDate().getTime(), timeCard);
     }
+
+    public double calculatePay(Paycheck pc) {
+        double pay = 0.0;
+        for (Long payDate : itsTimeCards.keySet()) {
+            double hours = itsTimeCards.get(payDate).getHours();
+            double overtime = Math.max(hours - 8.0, 0.0);
+            double worktime = Math.min(hours, 8.0);
+            pay += worktime * hourlyRate + overtime * 1.5 * hourlyRate;
+        }
+        return pay;
+    }
 }
