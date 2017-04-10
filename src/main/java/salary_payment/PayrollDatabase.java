@@ -37,6 +37,10 @@ public class PayrollDatabase {
         itsAffilication.put(memberId, empId);
     }
 
+    public void removeUnionMember(int memberId) {
+        itsAffilication.remove(memberId);
+    }
+
     public Employee getUnionMember(int memberId) {
         int empId = itsAffilication.get(memberId);
         return itsEmployees.get(empId);

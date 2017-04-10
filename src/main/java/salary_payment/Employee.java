@@ -12,7 +12,7 @@ public class Employee {
     private int empId;
     private String name;
     private String address;
-    private UnionAffiliation affiliation;
+    private Affiliation affiliation;
 
     public Employee(int empId, String name, String address) {
         this.empId = empId;
@@ -48,7 +48,7 @@ public class Employee {
         return method;
     }
 
-    public void setAffiliation(UnionAffiliation affiliation) {
+    public void setAffiliation(Affiliation affiliation) {
         this.affiliation = affiliation;
     }
 

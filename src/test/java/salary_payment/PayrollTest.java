@@ -16,6 +16,48 @@ public class PayrollTest extends TestCase {
         super.setUp();
     }
 
+    public void testChangeMemberTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+        AddEmployeeTransaction t = new AddSalariedEmployee(empId, name, home, salary);
+        t.execute();
+
+        int memberId = 3232;
+        double dues = 77.32;
+        ChangeAffiliationTransaction cmt = new ChangeMemberTransaction(empId, memberId, dues);
+        cmt.execute();
+        Employee e1 = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        Affiliation af = e1.getAffiliation();
+        assertTrue(af instanceof UnionAffiliation);
+
+        Employee e2 = PayrollDatabase.GPayroolDatabase.getUnionMember(memberId);
+        assertEquals(e1, e2);
+    }
+
+    public void testChangeUnffiliatedTransaction() throws Exception {
+        int empId = 2;
+        String name = "Bob";
+        String home = "Home";
+        double salary = 1000.0;
+        AddEmployeeTransaction t = new AddSalariedEmployee(empId, name, home, salary);
+        t.execute();
+
+        int memberId = 3232;
+        double dues = 77.32;
+        ChangeAffiliationTransaction cat1 = new ChangeMemberTransaction(empId, memberId, dues);
+        cat1.execute();
+        Employee e1 = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        Affiliation af = e1.getAffiliation();
+
+        ChangeAffiliationTransaction cat2 = new ChangeUnaffiliatedTransaction(empId);
+        cat2.execute();
+        Employee e2 = PayrollDatabase.GPayroolDatabase.getEmployee(empId);
+        Affiliation af2 = e2.getAffiliation();
+        assertTrue(af2 instanceof NoAffiliation);
+    }
+
     public void testChangeHoldMethodTransaction() throws Exception {
         int empId = 2;
         String name = "Bob";

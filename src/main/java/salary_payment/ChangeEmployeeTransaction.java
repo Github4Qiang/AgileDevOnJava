@@ -17,4 +17,7 @@ public abstract class ChangeEmployeeTransaction implements Transaction {
 
     public abstract void change(Employee e);
 
+    public int getEmpId() {
+        return empId;
+    }
 }

@@ -8,9 +8,10 @@ import java.util.HashMap;
  */
 public class UnionAffiliation implements Affiliation {
     private int memberId;
-    private double dues;
-    private HashMap<Long, ServiceCharge> itsServiceCharges;
 
+    private double dues;
+
+    private HashMap<Long, ServiceCharge> itsServiceCharges;
     public UnionAffiliation(int memberId, double dues) {
         this.memberId = memberId;
         this.dues = dues;
@@ -23,5 +24,13 @@ public class UnionAffiliation implements Affiliation {
 
     public void addServiceCharge(ServiceCharge serviceCharge) {
         itsServiceCharges.put(serviceCharge.getDate().getTime(), serviceCharge);
+    }
+
+    public int getMemberId() {
+        return memberId;
+    }
+
+    public double getDues() {
+        return dues;
     }
 }
