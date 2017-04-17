@@ -55,7 +55,4 @@ public class Paycheck {
         fields.put("Disposition", method);
     }
 
-    public Date getPayPeriodEndDate() {
-        return payDate;
-    }
 }

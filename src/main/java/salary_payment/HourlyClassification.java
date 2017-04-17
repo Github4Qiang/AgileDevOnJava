@@ -25,13 +25,28 @@ public class HourlyClassification implements PaymentClassification {
     }
 
     public double calculatePay(Paycheck pc) {
-        double pay = 0.0;
+        double totalPay = 0.0;
+        Date payPeriod = pc.getPayDate();
         for (Long payDate : itsTimeCards.keySet()) {
-            double hours = itsTimeCards.get(payDate).getHours();
-            double overtime = Math.max(hours - 8.0, 0.0);
-            double worktime = Math.min(hours, 8.0);
-            pay += worktime * hourlyRate + overtime * 1.5 * hourlyRate;
+            TimeCard tc = itsTimeCards.get(payDate);
+            if (isInPayPeriod(tc, payPeriod)) {
+                totalPay = calculatePayForTimeCard(tc);
+            }
         }
-        return pay;
+        return totalPay;
+    }
+
+    private double calculatePayForTimeCard(TimeCard tc) {
+        double hours = tc.getHours();
+        double overtime = Math.max(hours - 8.0, 0.0);
+        double worktime = Math.min(hours, 8.0);
+        return worktime * hourlyRate + overtime * 1.5 * hourlyRate;
+    }
+
+    public boolean isInPayPeriod(TimeCard tc, final Date payPeriod) {
+        Date payPeriodEndDate = payPeriod;
+        Date payPeriodStartDate = DateUtils.SomeDaysAgo(payPeriod, 7);
+        Date timeCardDate = tc.getDate();
+        return (DateUtils.Before(payPeriodStartDate, timeCardDate) && DateUtils.After(payPeriodEndDate, timeCardDate));
     }
 }

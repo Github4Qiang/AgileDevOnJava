@@ -8,6 +8,14 @@ import java.util.Date;
 public class DateUtils {
 
     public static final String[] WEEKDAYS = {"Mon", "Tus", "Wes", "Thu", "Fri", "Sat", "Sun"};
+    public static long DAY_OF_MILLISECONDS = 24 * 60 * 60 * 1000;
+
+    public static Date SomeDaysAgo(Date date, int Period) {
+        for (int i = 0; i < Period; i++) {
+            date = new Date(YesterdayOfDay(date).getTime());
+        }
+        return date;
+    }
 
     public static boolean IsLastDayOfMonth(Date date) {
         int m1 = date.getMonth();
@@ -17,8 +25,11 @@ public class DateUtils {
     }
 
     public static Date TomorrowOfDay(Date date) {
-        long dayMilliseconds = 24 * 60 * 60 * 1000;
-        return new Date(date.getTime() + dayMilliseconds);
+        return new Date(date.getTime() + DAY_OF_MILLISECONDS);
+    }
+
+    public static Date YesterdayOfDay(Date date) {
+        return new Date(date.getTime() - DAY_OF_MILLISECONDS);
     }
 
     public static int GetDayOfWeek(Date date) {
@@ -34,4 +45,11 @@ public class DateUtils {
         return new Date(year - 1900, month - 1, day);
     }
 
+    public static boolean After(Date date1, Date date2) {
+        return date1.getTime() > date2.getTime();
+    }
+
+    public static boolean Before(Date date1, Date date2) {
+        return date1.getTime() < date2.getTime();
+    }
 }
